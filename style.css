@@ -32,6 +32,10 @@ body {
     background-color: beige;
 }
 
+.calcBtns {
+    
+}
+
 .functionBtns {
     background-color: rgb(255, 95, 32);
 }
@@ -89,6 +93,21 @@ body {
 #decimalBtn {
     grid-column: 3 / 3;
     grid-row: 6 / 6;
+}
+
+#clearBtn {
+    grid-column: 1 / 1;
+    grid-row: 2 / 2;
+}
+
+#posNegBtn {
+    grid-column: 2 / 2;
+    grid-row: 2 / 2;
+}
+
+#percentBtn {
+    grid-column: 3 / 3;
+    grid-row: 2 / 2
 }
 
 #divisionBtn {
