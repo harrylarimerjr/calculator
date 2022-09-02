@@ -10,8 +10,6 @@ let secondNum = null;
 let currOperator = null;
 let allowDecimal = true;
 
-
-
 function clearClick() {
     if (runningTotal !== null) {
         secondNum = null;
@@ -42,6 +40,11 @@ function posNegClick() {
     }
 }
 
+function percentClick() {
+    calcDisplay.textContent = parseFloat(calcDisplay.textContent / 100);
+    displayValue = parseFloat(displayValue / 100);
+}
+
 function operatorClick(operatorText) {
     if (runningTotal === null) {
         runningTotal = calcDisplay.textContent;
@@ -64,32 +67,42 @@ function operatorClick(operatorText) {
 }
 
 function numClick(btnText) {
-        if (btnText === ".") {
+        if (btnText === '.') {
             if (allowDecimal === true) {
-                displayValue = "0" + btnText;
+                displayValue = '0' + btnText;
                 allowDecimal = false;
             }
         }
         else {
+            if (!((btnText === '0') && (calcDisplay.textContent === '0')))
             displayValue += btnText;
         }
-        calcDisplay.textContent = displayValue;
-        clearBtn.textContent = "C";
-        return;
+        
+        if (displayValue === '') {
+            calcDisplay.textContent = calcDisplayDefault;
+            clearBtn.textContent = 'C';
+        }
+        else {
+            calcDisplay.textContent = displayValue;
+            clearBtn.textContent = 'C';
+        }
 }
 
 function addAllEventListeners() {
-    addClearEventListener();
+    addCalcFunctionEventListeners();
     addOperatorEventListeners();
     addNumEventListeners();
 }
 
-function addClearEventListener() {
+function addCalcFunctionEventListeners() {
     clearBtn.addEventListener('click', () => {
         clearClick();
     });
     posNegBtn.addEventListener('click', () => {
         posNegClick();
+    })
+    percentBtn.addEventListener('click', () => {
+        percentClick();
     })
 }
 
