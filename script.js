@@ -2,13 +2,17 @@ const calcDisplay = document.querySelector('.calcDisplay');
 const calcDisplayDefault = 0;
 let displayValue = "";
 const clearBtn = document.getElementById('clearBtn');
+const posNegBtn = document.getElementById('posNegBtn');
+const percentBtn = document.getElementById('percentBtn');
 
 let runningTotal = null;
 let secondNum = null;
 let currOperator = null;
 let allowDecimal = true;
 
-function clearButton () {
+
+
+function clearClick() {
     if (runningTotal !== null) {
         secondNum = null;
         displayValue = "";
@@ -22,6 +26,19 @@ function clearButton () {
         displayValue = "";
         calcDisplay.textContent = calcDisplayDefault;
         clearBtn.textContent = "AC";
+    }
+}
+
+function posNegClick() {
+    if (calcDisplay.textContent !== '0') {
+        if (calcDisplay.textContent.startsWith('-')) {
+            displayValue = displayValue.slice(1);
+            calcDisplay.textContent = calcDisplay.textContent.slice(1);
+        }
+        else if (!calcDisplay.textContent.startsWith('-')) {
+            calcDisplay.textContent = '-' + calcDisplay.textContent;
+            displayValue = '-' + displayValue;
+        }
     }
 }
 
@@ -69,7 +86,10 @@ function addAllEventListeners() {
 
 function addClearEventListener() {
     clearBtn.addEventListener('click', () => {
-        clearButton();
+        clearClick();
+    });
+    posNegBtn.addEventListener('click', () => {
+        posNegClick();
     })
 }
 
