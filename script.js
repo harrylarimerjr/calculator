@@ -1,21 +1,35 @@
 const calcDisplay = document.querySelector('.calcDisplay');
 const calcDisplayDefault = 0;
-let displayValue = "";
 const clearBtn = document.getElementById('clearBtn');
 const posNegBtn = document.getElementById('posNegBtn');
 const percentBtn = document.getElementById('percentBtn');
+const operatorBtns = document.querySelectorAll('.functionBtns');
+const operatorBtnArray = [...operatorBtns];
 
+let displayValue = "";
 let runningTotal = null;
 let secondNum = null;
 let currOperator = null;
 let allowDecimal = true;
 
 function clearClick() {
-    if (runningTotal !== null) {
-        secondNum = null;
-        displayValue = "";
-        calcDisplay.textContent = calcDisplayDefault;
-        clearBtn.textContent = "AC";
+    if (clearBtn.textContent === 'C') {
+        if ((calcDisplay.textContent === runningTotal) && (displayValue === '')) {
+            runningTotal = null;
+            currOperator = null;
+            displayValue = calcDisplay.textContent;
+            clearBtn.textContent = 'AC';
+    
+            operatorBtnArray.forEach(element => {
+                element.style.backgroundColor = 'rgb(255, 95, 32)';
+            });
+        }
+        else {
+            secondNum = null;
+            displayValue = "";
+            calcDisplay.textContent = calcDisplayDefault;
+            clearBtn.textContent = 'AC';
+        }
     }
     else {
         runningTotal = null;
@@ -23,7 +37,11 @@ function clearClick() {
         allowDecimal = true;
         displayValue = "";
         calcDisplay.textContent = calcDisplayDefault;
-        clearBtn.textContent = "AC";
+        clearBtn.textContent = 'AC';
+
+        operatorBtnArray.forEach(element => {
+            element.style.backgroundColor = 'rgb(255, 95, 32)';
+        });
     }
 }
 
@@ -45,7 +63,18 @@ function percentClick() {
     displayValue = parseFloat(displayValue / 100);
 }
 
-function operatorClick(operatorText) {
+function operatorClick(operatorText, operatorID) {
+    
+    let currElement = document.getElementById(operatorID);
+    
+    operatorBtnArray.forEach(element => {
+        element.style.backgroundColor = 'rgb(255, 95, 32)';
+    });
+
+    if (operatorText != '=') {
+        currElement.style.backgroundColor = 'rgb(255, 146, 103)';
+    }
+
     if (runningTotal === null) {
         runningTotal = calcDisplay.textContent;
         displayValue = "";
@@ -107,11 +136,9 @@ function addCalcFunctionEventListeners() {
 }
 
 function addOperatorEventListeners() {
-    const operatorBtns = document.querySelectorAll('.functionBtns');
-    const operatorBtnArray = [...operatorBtns];
     operatorBtnArray.forEach(element => {
         element.addEventListener('click', () => {
-            operatorClick(element.textContent);
+            operatorClick(element.textContent, element.id);
         });
     });
 }
@@ -158,9 +185,6 @@ function operate(operatorStr, num1, num2) {
     }
     else if (operatorStr === "÷") {
         answer = divideNums(a, b);
-    }
-    else {
-        return "ERROR";
     }
     return answer;
 }
